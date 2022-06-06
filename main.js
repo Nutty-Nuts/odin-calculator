@@ -3,6 +3,10 @@
     TODO: Create Basic Mathematic Operations
     TODO: Create a function that gets two numbers an performs an operation
 */
+let inputString = [];
+
+const display = document.querySelector(".display");
+const buttons = document.querySelector(".buttons");
 
 const sumOfNum = function (a, b) {
     return a + b;
@@ -20,64 +24,52 @@ const quoOfNum = function (a, b) {
     return a / b;
 };
 
-let storage = [];
-
-const numButtons = document.querySelector(".buttons");
-numButtons.addEventListener("click", inputNum);
-
-const operateButtons = document.querySelector(".buttons");
-operateButtons.addEventListener("click", operateNum);
-
-const display = document.querySelector(".display");
-
-function inputNum(event) {
+const printDisplay = function (event) {
     const { value } = event.target.dataset;
-    let intValue = parseInt(value);
 
-    console.log(`Value: ${intValue} Type: ${typeof intValue}`);
+    const operators = ["+", "-", "*", "/"];
+    const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
+    const equals = ["="];
 
-    if (!isNaN(value)) {
-        console.log("Clicked");
-        display.value += value;
-    }
-}
-
-function operateNum(event) {
-    const { value } = event.target.dataset;
-    let total;
-    let intValue = parseInt(value);
-
-    if (isNaN(intValue)) {
+    if (operators.indexOf(value) != -1) {
         console.log("Operation");
 
-        let tempValue = parseInt(display.value);
-        storage.push(tempValue);
+        display.value += ` ${value} `;
+    } else if (numbers.indexOf(value) != -1) {
+        console.log("Numbers");
 
-        if (storage.length == 1) {
-            display.value = "";
-        } else if (storage.length == 2) {
-            switch (value) {
-                case "+":
-                    total = display.value = sumOfNum(storage[0], storage[1]);
+        display.value += value;
+    } else if (equals.indexOf(value) != -1) {
+        console.log("Equals");
 
-                    break;
-                case "-":
-                    total = display.value = diffOfNum(storage[0], storage[1]);
-
-                    break;
-                case "*":
-                    total = display.value = prodOfNum(storage[0], storage[1]);
-
-                    break;
-                case "/":
-                    total = display.value = quoOfNum(storage[0], storage[1]);
-
-                    break;
-            }
-            storage.pop();
-            storage.pop();
-        }
-        console.table(storage);
-        storage.length;
+        display.value = calculate();
     }
-}
+};
+
+const calculate = function () {
+    inputString = display.value.split(" ");
+
+    firstNum = parseFloat(inputString[0]);
+    secondNum = parseFloat(inputString[2]);
+
+    console.log(`${firstNum} ${secondNum}`);
+
+    switch (inputString[1]) {
+        case "+":
+            return sumOfNum(firstNum, secondNum);
+
+        case "-":
+            return diffOfNu(firstNum, secondNum);
+
+        case "*":
+            return prodOfNum(firstNum, secondNum);
+
+        case "/":
+            return prodOfNum(firstNum, secondNum);
+
+        default:
+    }
+    console.table(inputString);
+};
+
+buttons.addEventListener("click", printDisplay);
