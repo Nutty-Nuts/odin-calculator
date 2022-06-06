@@ -5,6 +5,7 @@
 */
 let inputString = [];
 
+const history = document.querySelector(".history");
 const display = document.querySelector(".display");
 const buttons = document.querySelector(".buttons");
 
@@ -32,22 +33,51 @@ const printDisplay = function (event) {
     const equals = ["="];
 
     if (operators.indexOf(value) != -1) {
-        console.log("Operation");
+        console.log(inputString.length);
 
-        display.value += ` ${value} `;
+        inputString < 1 ? (history.value = `${display.value} ${value}`) : null;
+
+        if (inputString.length == 1) {
+            inputString.pop();
+            inputString.push(display.value);
+        } else {
+            inputString.push(display.value);
+        }
+
+        if (inputString.length == 3) {
+            display.value = calculate();
+
+            inputString.push(value);
+        } else {
+            console.log("Operation");
+
+            inputString.push(value);
+
+            display.value = "";
+        }
     } else if (numbers.indexOf(value) != -1) {
         console.log("Numbers");
 
-        display.value += value;
+        if (inputString.length == 2) {
+            display.value = "";
+            display.value += value;
+            history.value = `${inputString[0]} ${inputString[1]}`;
+        } else {
+            display.value += value;
+        }
     } else if (equals.indexOf(value) != -1) {
         console.log("Equals");
 
+        inputString.push(display.value);
+
         display.value = calculate();
     }
+
+    console.table(inputString);
 };
 
 const calculate = function () {
-    inputString = display.value.split(" ");
+    console.table(inputString);
 
     firstNum = parseFloat(inputString[0]);
     secondNum = parseFloat(inputString[2]);
@@ -56,20 +86,27 @@ const calculate = function () {
 
     switch (inputString[1]) {
         case "+":
+            inputString = [];
+            inputString.push(sumOfNum(firstNum, secondNum));
             return sumOfNum(firstNum, secondNum);
 
         case "-":
-            return diffOfNu(firstNum, secondNum);
+            inputString = [];
+            inputString.push(sumOfNum(firstNum, secondNum));
+            return diffOfNum(firstNum, secondNum);
 
         case "*":
+            inputString = [];
+            inputString.push(sumOfNum(firstNum, secondNum));
             return prodOfNum(firstNum, secondNum);
 
         case "/":
+            inputString = [];
+            inputString.push(sumOfNum(firstNum, secondNum));
             return prodOfNum(firstNum, secondNum);
 
         default:
     }
-    console.table(inputString);
 };
 
 buttons.addEventListener("click", printDisplay);
