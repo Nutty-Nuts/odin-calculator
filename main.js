@@ -84,6 +84,8 @@ const calculate = function () {
 
     console.log(`${firstNum} ${secondNum}`);
 
+    history.value = "";
+
     switch (inputString[1]) {
         case "+":
             inputString = [];
@@ -92,18 +94,18 @@ const calculate = function () {
 
         case "-":
             inputString = [];
-            inputString.push(sumOfNum(firstNum, secondNum));
+            inputString.push(diffOfNum(firstNum, secondNum));
             return diffOfNum(firstNum, secondNum);
 
         case "*":
             inputString = [];
-            inputString.push(sumOfNum(firstNum, secondNum));
+            inputString.push(prodOfNum(firstNum, secondNum));
             return prodOfNum(firstNum, secondNum);
 
         case "/":
             inputString = [];
-            inputString.push(sumOfNum(firstNum, secondNum));
-            return prodOfNum(firstNum, secondNum);
+            inputString.push(quoOfNum(firstNum, secondNum));
+            return quoOfNum(firstNum, secondNum);
 
         default:
     }
