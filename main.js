@@ -5,6 +5,8 @@
 */
 let inputString = [];
 
+let equalState = false;
+
 const history = document.querySelector(".history");
 const display = document.querySelector(".display");
 const buttons = document.querySelector(".buttons");
@@ -31,6 +33,7 @@ const printDisplay = function (event) {
     const operators = ["+", "-", "*", "/"];
     const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
     const equals = ["="];
+    const clear = ["C"];
 
     if (operators.indexOf(value) != -1) {
         console.log(inputString.length);
@@ -58,19 +61,24 @@ const printDisplay = function (event) {
     } else if (numbers.indexOf(value) != -1) {
         console.log("Numbers");
 
-        if (inputString.length == 2) {
+        if (equalState) {
             display.value = "";
-            display.value += value;
             history.value = `${inputString[0]} ${inputString[1]}`;
+
+            equalState = false;
         } else {
-            display.value += value;
         }
+        display.value += value;
     } else if (equals.indexOf(value) != -1) {
         console.log("Equals");
 
         inputString.push(display.value);
 
         display.value = calculate();
+    } else if (clear.indexOf(value) != -1) {
+        display.value = "";
+        history.value = "";
+        inputString = [];
     }
 
     console.table(inputString);
@@ -78,6 +86,8 @@ const printDisplay = function (event) {
 
 const calculate = function () {
     console.table(inputString);
+
+    equalState = true;
 
     firstNum = parseFloat(inputString[0]);
     secondNum = parseFloat(inputString[2]);
